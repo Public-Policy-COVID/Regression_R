@@ -1,0 +1,63 @@
+---
+title: "Regression"
+author: "Ayushi Dhar"
+date: "3/7/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(knitr.duplicate.label = "allow")
+```
+
+
+
+```{r, echo=TRUE}
+# Read the merged data from github and convert it to a data frame
+link='https://raw.githubusercontent.com/Public-Policy-COVID/students_merge/main/Merged_data.csv'
+myFile=url(link)
+fromPy=read.csv(file = myFile)
+summary(fromPy)
+```
+```{r, echo=TRUE}
+# Hypothesis 1: As number of hospitals, number of hospital beds and mask score increases, covid deaths decrease and as total_population increases covid deaths decrease. 
+hypo1 = formula(Deaths_COVID~ Number_of_hospitals+Number_of_beds+mask_score+total_population)
+gauss1=glm(hypo1,
+           data = fromPy,
+           family = 'gaussian')
+summary(gauss1)
+```
+
+```{r, echo=TRUE}
+# Get R squared of the model
+library(rsq)
+rsq(gauss1,adj=T)
+```
+
+
+```{r, echo=TRUE}
+# Summary plots
+library(dotwhisker)
+dwplot(gauss1,by_2sd = F)
+```
+
+```{r, echo=TRUE}
+library(margins)
+cplot(gauss1,'Number_of_hospitals')
+```
+
+```{r, echo=TRUE}
+cplot(gauss1,'Number_of_beds')
+```
+
+```{r, echo=TRUE}
+cplot(gauss1,'mask_score')
+```
+```{r, echo=TRUE}
+cplot(gauss1,'total_population')
+```
+
+```{r, echo=TRUE}
+# Plot interaction between variables
+persp(gauss1)
+```
