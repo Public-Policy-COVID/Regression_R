@@ -1,9 +1,14 @@
 ---
 title: "Regression"
-author: "Ayushi Dhar"
+author: "Group 4"
 date: "3/7/2021"
-output: html_document
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
 ---
+
+## Regression Analysis
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -11,16 +16,23 @@ options(knitr.duplicate.label = "allow")
 ```
 
 
+Get the link which has the merged data from github, then read the csv file and save it as a dataframe in R.
 
 ```{r, echo=TRUE}
-# Read the merged data from github and convert it to a data frame
 link='https://raw.githubusercontent.com/Public-Policy-COVID/students_merge/main/Merged_data.csv'
 myFile=url(link)
 fromPy=read.csv(file = myFile)
+# Summary results of merged data
 summary(fromPy)
 ```
+
+
+We use regression when we have a continuous outcome or dependent variable, and a set of independent variables which can be of different types.
+
+Run a regression to test the hypothesis that as number of hospitals, number of hospital beds and total_population increases, covid deaths increase and as mask score increases covid deaths decrease.
+
 ```{r, echo=TRUE}
-# Hypothesis 1: As number of hospitals, number of hospital beds and mask score increases, covid deaths decrease and as total_population increases covid deaths decrease. 
+
 hypo1 = formula(Deaths_COVID~ Number_of_hospitals+Number_of_beds+mask_score+total_population)
 gauss1=glm(hypo1,
            data = fromPy,
@@ -28,12 +40,17 @@ gauss1=glm(hypo1,
 summary(gauss1)
 ```
 
+
+Get R squared of the model.
+
 ```{r, echo=TRUE}
-# Get R squared of the model
+
 library(rsq)
 rsq(gauss1,adj=T)
 ```
 
+
+Plotting the regression coefficients.
 
 ```{r, echo=TRUE}
 # Summary plots
@@ -41,23 +58,39 @@ library(dotwhisker)
 dwplot(gauss1,by_2sd = F)
 ```
 
+
+Margin plot for number of hospitals variable.
+
 ```{r, echo=TRUE}
+
 library(margins)
 cplot(gauss1,'Number_of_hospitals')
 ```
+
+
+Margin plot for number of beds variable.
 
 ```{r, echo=TRUE}
 cplot(gauss1,'Number_of_beds')
 ```
 
+
+Margin plot for mask score variable.
+
 ```{r, echo=TRUE}
 cplot(gauss1,'mask_score')
 ```
+
+
+Margin plot for total population variable.
+
 ```{r, echo=TRUE}
 cplot(gauss1,'total_population')
 ```
 
+
+Plot interaction between variables.
+
 ```{r, echo=TRUE}
-# Plot interaction between variables
 persp(gauss1)
 ```
