@@ -1,21 +1,23 @@
 ---
-title: "Regression"
+title: "Regression Analysis"
 author: "Group 4"
 date: "3/7/2021"
 output:
-  word_document: default
-  pdf_document: default
   html_document: default
+  pdf_document: default
+  word_document: default
 ---
 
-## Regression Analysis
+## Hypothesis 1
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 options(knitr.duplicate.label = "allow")
 ```
 
-# Get the link which has the merged data from github, then read the csv file and save it as a # dataframe in R.
+## Read input files from github
+
+Get the link which has the merged data from github, then read the csv file and save it as a dataframe in R.
 
 ```{r, echo=TRUE}
 link='https://raw.githubusercontent.com/Public-Policy-COVID/students_merge/main/Merged_data.csv'
@@ -25,12 +27,13 @@ fromPy=read.csv(file = myFile)
 summary(fromPy)
 ```
 
-# We use regression when we have a continuous outcome or dependent variable, and a set of independent variables which can be of different types.
+## Test hypothesis
 
-# Run a regression to test the hypothesis that as number of hospitals, number of hospital beds and total_population increases, covid deaths increase and as mask score increases covid deaths decrease.
+We use regression when we have a continuous outcome or dependent variable, and a set of independent variables which can be of different types.
+
+Run a regression to test the hypothesis that as number of hospitals, number of hospital beds and total_population increases, covid deaths increase and as mask score increases covid deaths decrease.
 
 ```{r, echo=TRUE}
-
 hypo1 = formula(Deaths_COVID~ Number_of_hospitals+Number_of_beds+mask_score+total_population)
 gauss1=glm(hypo1,
            data = fromPy,
@@ -38,7 +41,7 @@ gauss1=glm(hypo1,
 summary(gauss1)
 ```
 
-# Get R squared of the model.
+Get R squared of the model.
 
 ```{r, echo=TRUE}
 
@@ -46,7 +49,9 @@ library(rsq)
 rsq(gauss1,adj=T)
 ```
 
-# Plotting the regression coefficients.
+## Summary plots
+
+Plotting the regression coefficients.
 
 ```{r, echo=TRUE}
 # Summary plots
@@ -54,32 +59,32 @@ library(dotwhisker)
 dwplot(gauss1,by_2sd = F)
 ```
 
-# Margin plot for number of hospitals variable.
+Margin plot for number of hospitals variable.
 
 ```{r, echo=TRUE}
 library(margins)
 cplot(gauss1,'Number_of_hospitals')
 ```
 
-# Margin plot for number of beds variable.
+Margin plot for number of beds variable.
 
 ```{r, echo=TRUE}
 cplot(gauss1,'Number_of_beds')
 ```
 
-# Margin plot for mask score variable.
+Margin plot for mask score variable.
 
 ```{r, echo=TRUE}
 cplot(gauss1,'mask_score')
 ```
 
-# Margin plot for total population variable.
+Margin plot for total population variable.
 
 ```{r, echo=TRUE}
 cplot(gauss1,'total_population')
 ```
 
-# Plot interaction between variables.
+Plot interaction between variables.
 
 ```{r, echo=TRUE}
 persp(gauss1)
