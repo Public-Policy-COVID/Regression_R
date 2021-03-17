@@ -3,9 +3,9 @@ title: "Regression Analysis"
 author: "Group 4"
 date: "3/7/2021"
 output:
-  html_document: default
-  pdf_document: default
   word_document: default
+  pdf_document: default
+  html_document: default
 ---
 
 ## Hypothesis 1
@@ -17,7 +17,7 @@ options(knitr.duplicate.label = "allow")
 
 ## Read input files from github
 
-Get the link which has the merged data from github, then read the csv file and save it as a dataframe in R.
+Get the link which has the merged data from github, then read the csv file and save it as a dataframe in R for analysis.
 
 ```{r, echo=TRUE}
 link='https://raw.githubusercontent.com/Public-Policy-COVID/students_merge/main/Merged_data.csv'
@@ -41,7 +41,7 @@ gauss1=glm(hypo1,
 summary(gauss1)
 ```
 
-Get R squared of the model.
+Get R squared of the model. R-squared is the percentage of the dependent variable variation that a linear model explains.
 
 ```{r, echo=TRUE}
 
@@ -50,6 +50,8 @@ rsq(gauss1,adj=T)
 ```
 
 ## Summary plots
+
+In order to visualize the results of our hypothesis and the dependent variables, we use different summary plots. 
 
 Plotting the regression coefficients.
 
