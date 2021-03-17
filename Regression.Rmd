@@ -4,11 +4,13 @@ author: "Group 4"
 date: "3/7/2021"
 output:
   word_document: default
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 
 ## Hypothesis 1
+
+Our group decided to test out 2 hypothesis for this project. This is the document for our first hypothesis.
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -23,7 +25,13 @@ Get the link which has the merged data from github, then read the csv file and s
 link='https://raw.githubusercontent.com/Public-Policy-COVID/students_merge/main/Merged_data.csv'
 myFile=url(link)
 fromPy=read.csv(file = myFile)
+```
+
 # Summary results of merged data
+
+In order to understand our merged dataset, we need to know some of the basic statistical summary for it. 
+
+```{r, echo=TRUE}
 summary(fromPy)
 ```
 
@@ -33,15 +41,22 @@ We use regression when we have a continuous outcome or dependent variable, and a
 
 Run a regression to test the hypothesis that as number of hospitals, number of hospital beds and total_population increases, covid deaths increase and as mask score increases covid deaths decrease.
 
+We use the glm function in R to run a linear regression.
+
 ```{r, echo=TRUE}
 hypo1 = formula(Deaths_COVID~ Number_of_hospitals+Number_of_beds+mask_score+total_population)
 gauss1=glm(hypo1,
            data = fromPy,
            family = 'gaussian')
+```
+
+See the results of our linear regression.
+
+```{r, echo=TRUE}
 summary(gauss1)
 ```
 
-Get R squared of the model. R-squared is the percentage of the dependent variable variation that a linear model explains.
+Get R squared of the model. R-squared is the percentage of the dependent variable variation that a linear model explains. R-squared helps us decide how effective this model is and compare it with other hypothesis as well. 
 
 ```{r, echo=TRUE}
 
